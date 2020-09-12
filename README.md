@@ -22,7 +22,7 @@ Directory structure
 
 # How to build and test
 
-## c++ setup
+## C++ setup
 
 ```sh
 | => gcc --version
@@ -43,7 +43,7 @@ cmake version 3.18.2
 CMake suite maintained and supported by Kitware (kitware.com/cmake).
 ```
 
-Pasting the simbolic link of gcc and g++ in the `/usr/local/bin` directory.
+Pasting the simbolic link of gcc and g++ to the `/usr/local/bin` directory.
 
 ```sh
 | => which g++
@@ -51,7 +51,7 @@ Pasting the simbolic link of gcc and g++ in the `/usr/local/bin` directory.
 | => which gcc
 /usr/local/bin/gcc
 ```
-Add the folllowing in `~/.bash_profile`.
+Add the folllowing to `~/.bash_profile`.
 
 ```sh
 export C_INCLUDE_PATH="/usr/local/include" 
@@ -70,7 +70,7 @@ Check the include path of gcc and see if `/usr/local/include` is in your include
  /usr/local/include
 ```
 
-## install google test locally
+## Install google test locally
 
 Build google test using cmake.
 
@@ -94,7 +94,7 @@ sudo cp ./googletest/build/lib/*.a /usr/local/lib/
 Check if you can use google test.
 Create `test.cpp` file with the following contents.
 
-```sh
+```cpp
 #include <gtest/gtest.h>
 
 TEST(TestCaseName, TestName){
@@ -122,7 +122,7 @@ Test project XXX
 Total Test time (real) =   0.48 sec
 ```
 
-## test matrix_lib
+## Test matrix_lib
 
 Now you can test this library using google test.
 
