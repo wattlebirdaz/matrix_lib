@@ -7,14 +7,6 @@ project(matrix_lib
 
 enable_testing()
 
-
-add_library(matrix STATIC ./src/matrix.cpp)
-target_compile_features(matrix PRIVATE cxx_std_11)
-target_include_directories(matrix PUBLIC ./include)
-set_target_properties(matrix
-    PROPERTIES
-    VERSION ${PROJECT_VERSION})
-
-
+add_subdirectory(src)
 add_subdirectory(test)
 add_test(test01 test/test01)
