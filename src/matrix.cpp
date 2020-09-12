@@ -186,6 +186,22 @@ Vector &Vector::operator-=(const Vector &right) {
   return *this;
 }
 
+void Vector::cleanup() {
+  int i;
+  double max = 0.0;
+  for (i = 0; i < Dim; ++i) {
+    if (fabs(ptr[i]) > max) max = fabs(ptr[i]);
+  }
+
+  if (max > NEARLY_ZERO) {
+    for (i = 0; i < Dim; ++i) {
+      if (fabs(ptr[i]) / max < ZERO_TOLERANCE) {
+        ptr[i] = 0.0;
+      }
+    }
+  }
+}
+
 // private ////////////////////////////////////////////////////////////////////
 
 void Vector::new_vector() {
@@ -252,6 +268,7 @@ const Vector operator*(const Matrix &a, const Vector &x) {
     }
     y.ptr[i] = sum;
   }
+  y.cleanup();
   return y;
 }
 
@@ -268,6 +285,7 @@ const Vector operator*(const Vector &x, const Matrix &a) {
     }
     y.ptr[i] = sum;
   }
+  y.cleanup();
   return y;
 }
 
@@ -286,6 +304,7 @@ const Matrix operator*(const Matrix &left, const Matrix &right) {
       m.ptr[i].ptr[j] = sum;
     }
   }
+  m.cleanup();
   return m;
 }
 
@@ -373,9 +392,40 @@ Matrix &Matrix::operator*=(const Matrix &right) {
     std::cout << "error: sizes do not match" << "\n";
     std::abort();
   }
-  return *this = (*this) * right;
+
+  Matrix m(Row, right.Col);
+  for (int i = 0; i < Row; ++i) {
+    for (int j = 0; j < right.Col; ++j) {
+      double sum = 0.0;
+      for (int k = 0; j < Col; ++k) {
+        sum += ptr[i][k] * right.ptr[k][j];
+      }
+      m.ptr[i][j] = sum;
+    }
+  }
+  m.cleanup();
+
+  return *this = m;
 }
 
+void Matrix::cleanup() {
+  int i, j;
+  double max = 0.0;
+  for (i = 0; i < Row; ++i) {
+    for (j = 0; j < Col; ++j) {
+      if (fabs(ptr[i][j]) > max) max = fabs(ptr[i][j]);
+    }
+  }
+  if (max > NEARLY_ZERO) {
+    for (i = 0; i < Row; ++i) {
+      for (j = 0; j < Col; ++j) {
+        if (fabs(ptr[i][j]) / max < ZERO_TOLERANCE) {
+          ptr[i][j] = 0.0;
+        }
+      }
+    }
+  }
+}
 
 // private ////////////////////////////////////////////////////////////////////
 

@@ -9,6 +9,7 @@
 #include <cassert>
 
 #define NEARLY_ZERO 1.E-16
+#define ZERO_TOLERANCE 1.E-18
 
 class Vector;
 class Matrix;
@@ -23,9 +24,9 @@ class Vector {
   friend std::ostream &operator<<(std::ostream &, const Vector &);
   friend std::istream &operator>>(std::istream &, Vector &);
   friend double operator*(const Vector &, const Vector &);
+  friend const Matrix operator*(const Matrix &, const Matrix &);
   friend const Vector operator*(const Matrix &, const Vector &);
   friend const Vector operator*(const Vector &, const Matrix &);
-  friend const Matrix operator*(const Matrix &, const Matrix &);
   friend bool operator==(const Vector &, const Vector &);
   friend bool operator!=(const Vector &, const Vector &);
   
@@ -46,6 +47,7 @@ class Vector {
   Vector &operator/=(double);
   Vector &operator+=(const Vector &);
   Vector &operator-=(const Vector &);
+  void cleanup();
 
  private:
   double *ptr;
@@ -80,6 +82,7 @@ class Matrix {
   Matrix &operator+=(const Matrix &);
   Matrix &operator-=(const Matrix &);
   Matrix &operator*=(const Matrix &);
+  void cleanup();
 
  private:
   Vector *ptr;
